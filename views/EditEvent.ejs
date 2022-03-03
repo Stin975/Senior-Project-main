@@ -1,0 +1,90 @@
+<%- include('partials/header') -%>
+
+
+
+        <body class="create-event-body-page">
+            <main >
+                <h1 class="create-event-text">Edit event</h1>
+                <div class ="create-event-table-container">
+                <Form id="createEvent" action = '/<%= event.eventId%>?_method=PUT' method = 'POST'>
+                  <table class="create-event-table">
+                    <tr>
+                      <th>Event Title:</th>
+                      <td colspan="3"><input type="text" class="event-title-td" id="eTitle" name="eTitle" value="<%= event.title%>" required></td>
+                    </tr>
+                    <tr>
+                      <th>Event Type:</th>
+                      <td><input type="text" class="event-type-td" id="eType" name="eType" value="<%= event.type%>" required></td>
+                      <th>Color:</th>
+                      <td><input type="color" id="eColor" name="eColor" value="<%= event.backgroundColor%>"></td>
+                    </tr>
+                    <%
+                    let dateTime = event.start.split('T');
+
+                    let end = event.end.split('T');
+
+
+                    %>
+                    <tr>
+                      <th rowspan="2">Start Date:</th>
+                      <td rowspan="2"><input type="date" id="edate" name="edate" value="<%= dateTime[0]%>"></td>
+                      <th>Text Color:</th>
+                      <td><select id="eTextcolor" name="eTextcolor" >
+                            <% if(event.textColor == 'White'){%>
+                                <option value="Black">Black</option>
+                                <option value="White" selected>White</option>
+                                <% }else{%>
+                                    <option value="Black" selected>Black</option>
+                                    <option value="White">White</option>
+                            <%}%></td>
+                    </tr>
+                  <tr>
+                    <th>Start Time:</th>
+                    <td><input type="time" id="eSTime" name="eSTime"value="<%= dateTime[1]%>" ></td>
+
+                  </tr>
+                  <tr>
+                    <th rowspan="2">End Date:</th>
+                    <td rowspan="2"><input type="date" id="eRecurDateend" name="eRecurDateend" value="<%= event.endRecur%>"></td>
+                    <th>End Time:</th>
+                    <td><input type="time" id="eETime" name="eETime" value="<%= end[1]%>"></td>
+
+                  </tr>
+                  <tr>
+                    <th>Repeat Event:</th>
+                    <td><select id="eRepeat" name="eRepeat" >
+                            <% if(event.repeat == 'Daily'){%>
+                                <option value="None" >None</option>
+                                <option value="Daily" selected>Daily</option>
+                                <option value="Weekly">Weekly</option>
+                                <% }else if(event.repeat == 'Weekly'){%>
+                            <option value="None">None</option>
+                            <option value="Daily">Daily</option>
+                            <option value="Weekly" selected>Weekly</option>
+                            <%}else{%>
+                            <option value="None" selected>None</option>
+                            <option value="Daily">Daily</option>
+                            <option value="Weekly">Weekly</option>
+                           <% }%></td>
+                  </tr>
+                  <tr>
+                    <th colspan="3">Random roomate assigned:</th>
+                    <td colspan="3"><input class type="checkbox" id="Random" name="Random" value="1"><td>
+                  </tr>
+                  <tr >
+                    <th class="event-description-row">Event Description:</th>
+                    <td colspan="3"><textarea type="text" class="event-description-td" id="eDescription" name="eDescription"><%= event.description%></textarea></td>
+
+                  </tr>
+
+
+                  </table>
+                  <div class="create-button-container">
+                  <button type="submit" class="create-event-button" id="formButton" >Update Event</button>
+                  </div>
+                </Form>
+                </div>
+
+            </main>
+        </body>
+        <%- include('partials/footer') -%>

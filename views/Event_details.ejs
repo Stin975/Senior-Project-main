@@ -1,0 +1,74 @@
+<%- include('partials/header') -%>
+
+
+
+        <body class="event-details-page-body">
+            <main>
+               
+
+            <%
+            let dateTime = event.start.split('T');
+            let start = moment(dateTime[1], 'HH:mm:ss').format('hh:mm A');
+            let end = event.end.split('T');
+            end = moment(end[1], 'HH:mm:ss').format('hh:mm A');
+
+            %>
+            <div class="event-details-container">
+                  <h1 class="event-details-text">Event Details</h1>
+                  <h2 class="event-title"><%= event.title%></h2>
+            <table class="event-details-table">
+              <tr>
+                <th>Category: </th>
+                <td class="event-details-table-td"><%= event.type%></td>
+              </tr>
+              <tr>
+                <th>Date:</th>
+                <td class="event-details-table-td"><%= dateTime[0]%></td>
+              </tr>
+              <tr>
+                <th>Time</th>
+                <td class="event-details-table-td"><%= start%>-<%= end%></td>
+              </tr>
+              <tr>
+                <th>Repeat:</th>
+                <td class="event-details-table-td"><%= event.repeat%></td>
+              </tr>
+              <tr>
+                <th>Description:</th>
+                <td class="event-details-table-td"><%= event.description%></td>
+                </tr>
+              <tr>
+                <% if(event.roomId == 0){%>
+                        <th>Participants Going:</th>
+                        <td class="event-details-table-td"><%= count %></td>
+                        <% } %>
+                <% if(days != -1 && event.Random == 1){%>
+                          <th>Random User:</th>
+                          <td class="event-details-table-td"><%= days %></td>
+                <% } %>
+              </tr>
+              <tr>
+                <% if(user.userId == event.creator && !(event.roomId == 0)){%>
+                <form>
+                <td class="event-details-button"><button type="submit" class="event-edit-button" formmethod="GET" formaction="/<%= event.eventId%>/edit">Edit</button></td>
+                <td class="event-details-button"><button type="submit" class="event-delete-button" formmethod="POST" formaction="/<%= event.eventId%>?_method=DELETE">Delete</button></td>
+                </form>
+                <%}%>
+                <% if(event.roomId == 0 && going){%>
+                <form>
+                   <% if(user.role == "student"){%>
+                        <td class="withdraw-details-button" colspan="2"><button type="submit" class="withdraw-event-button" formmethod="POST" formaction="/student/removeAnnoun/<%= event.eventId%>?_method=DELETE">Withdraw from event</button></td>
+                        <%}else{%>
+                        <td class="withdraw-details-button" colspan="2"><button type="submit" class="withdraw-event-button" formmethod="POST" formaction="/RA/removeAnnoun/<%= event.eventId%>?_method=DELETE">Withdraw from event</button></td>
+                        <%}%>
+                </form>
+                <%}%>
+
+              </tr>
+            </table>
+           
+            </div>
+
+            </main>
+        </body>
+        <%- include('partials/footer') -%>
